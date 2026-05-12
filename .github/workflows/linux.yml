@@ -39,7 +39,7 @@ jobs:
     name: Release ${{ matrix.arch }}
     needs: changes
     if: always() && !cancelled() && (needs.changes.outputs.should_build == 'true' || needs.changes.result == 'skipped')
-    runs-on: runs-on=${{ github.run_id }}/runner=${{ matrix.runner }}/extras=s3-cache
+    runs-on: ${{ matrix.runs_on }}
     timeout-minutes: 120
 
     strategy:
@@ -47,12 +47,12 @@ jobs:
       matrix:
         include:
           - arch: linux_gcc_arm64
-            runner: linux-arm64-builder
+            runs_on: runs-on=${{ github.run_id }}/cpu=8/ram=16/family=c7g+m7g+c8g+m8g/image=ubuntu24-full-arm64/extras=s3-cache
             package: QGroundControl-aarch64
             host: linux_arm64
 
           - arch: linux_gcc_64
-            runner: linux-x64-builder
+            runs_on: runs-on=${{ github.run_id }}/cpu=8/ram=16/family=c7i+m7i+c7a+m7a/image=ubuntu24-full-x64/extras=s3-cache
             package: QGroundControl-x86_64
             host: linux
 
@@ -187,7 +187,7 @@ jobs:
     name: ${{ matrix.job_name }}
     needs: [changes, debug-matrix]
     if: ${{ !cancelled() && (needs.changes.outputs.should_build == 'true' || needs.changes.result == 'skipped') }}
-    runs-on: runs-on=${{ github.run_id }}/runner=linux-x64-tester/extras=s3-cache
+    runs-on: runs-on=${{ github.run_id }}/cpu=4/ram=8/family=c7i+m7i+c7a+m7a/image=ubuntu24-full-x64/extras=s3-cache
     timeout-minutes: ${{ matrix.timeout_minutes }}
 
     strategy:
