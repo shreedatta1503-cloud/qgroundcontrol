@@ -1,0 +1,22 @@
+runners:
+  linux-x64-builder:
+    cpu: [8, 16]
+    ram: [16, 32]
+    family: ["c7i", "m7i", "c7a", "m7a"]
+    spot: price-capacity-optimized
+    image: ubuntu24-full-x64
+    extras: s3-cache
+  linux-arm64-builder:
+    cpu: [8, 16]
+    ram: [16, 32]
+    family: ["c7g", "m7g", "c8g", "m8g"]
+    spot: price-capacity-optimized
+    image: ubuntu24-full-arm64
+    extras: s3-cache
+  linux-x64-tester:
+    cpu: [4, 8]
+    ram: [8, 16]
+    family: ["c7i", "m7i", "c7a", "m7a"]
+    spot: price-capacity-optimized
+    image: ubuntu24-full-x64
+    extras: s3-cache
