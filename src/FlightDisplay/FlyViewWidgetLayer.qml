@@ -88,7 +88,7 @@ Item {
         id:                 topRightColumnLayout
         anchors.margins:    _layoutMargin
         anchors.top:        parent.top
-        anchors.bottom:     bottomRightRowLayout.top
+        anchors.bottom:     strobeButton.top
         anchors.right:      parent.right
         spacing:            _layoutSpacing
         visible:           !topRightPanel.visible
@@ -200,6 +200,16 @@ Item {
 
     ServoDropMenu {
         id: servoDropOptions
+    }
+
+    StrobeButton {
+        id:                 strobeButton
+        anchors.right:      parent.right
+        anchors.rightMargin: _layoutMargin
+        anchors.bottom:     bottomRightRowLayout.top
+        anchors.bottomMargin: _layoutSpacing
+        z:                  QGroundControl.zOrderWidgets
+        visible:            !QGroundControl.videoManager.fullScreen
     }
 
     VehicleWarnings {

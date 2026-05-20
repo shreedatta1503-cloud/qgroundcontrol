@@ -60,6 +60,7 @@ qt_add_qml_module(FlightDisplayModule
         QGCVideoBackground.qml
         RoverChecklist.qml
         ServoDropMenu.qml
+        StrobeButton.qml
         SubChecklist.qml
         TelemetryValuesBar.qml
         TerrainProgress.qml
