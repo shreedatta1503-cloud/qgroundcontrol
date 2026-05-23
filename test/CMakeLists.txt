@@ -18,7 +18,7 @@ target_sources(${CMAKE_PROJECT_NAME}
 find_package(Qt6 REQUIRED COMPONENTS Test)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Test)
 
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE QGC_UNITTEST_BUILD)
 

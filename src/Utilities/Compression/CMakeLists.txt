@@ -8,7 +8,7 @@ target_sources(${CMAKE_PROJECT_NAME}
         QGCZlib.h
 )
 
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 #===========================================================================#
 
@@ -48,23 +48,23 @@ CPMAddPackage(
 )
 
 qt_add_library(xz STATIC
-    ${xz-embedded_SOURCE_DIR}/linux/include/linux/xz.h
-    ${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_crc32.c
-    ${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_crc64.c
-    ${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_dec_lzma2.c
-    ${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_dec_stream.c
-    ${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_lzma2.h
-    ${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_private.h
-    ${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_stream.h
-    ${xz-embedded_SOURCE_DIR}/userspace/xz_config.h
+    "${xz-embedded_SOURCE_DIR}/linux/include/linux/xz.h"
+    "${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_crc32.c"
+    "${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_crc64.c"
+    "${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_dec_lzma2.c"
+    "${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_dec_stream.c"
+    "${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_lzma2.h"
+    "${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_private.h"
+    "${xz-embedded_SOURCE_DIR}/linux/lib/xz/xz_stream.h"
+    "${xz-embedded_SOURCE_DIR}/userspace/xz_config.h"
 )
 
 target_include_directories(xz
     PUBLIC
-        ${xz-embedded_SOURCE_DIR}/linux/include/linux
+        "${xz-embedded_SOURCE_DIR}/linux/include/linux"
     PRIVATE
-        ${xz-embedded_SOURCE_DIR}/linux/lib/xz
-        ${xz-embedded_SOURCE_DIR}/userspace
+        "${xz-embedded_SOURCE_DIR}/linux/lib/xz"
+        "${xz-embedded_SOURCE_DIR}/userspace"
 )
 
 target_compile_definitions(xz

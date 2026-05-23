@@ -42,4 +42,16 @@ ColumnLayout {
             }
         }
     }
+
+    PayloadDropWidget {
+        id:                 payloadDropWidget
+        Layout.alignment:   Qt.AlignRight
+        visible:            globals.guidedControllerFlyView.showPayloadDrop && !QGroundControl.videoManager.fullScreen
+    }
+
+    NavigationLightsButton {
+        id:                 navigationLightsButton
+        Layout.alignment:   Qt.AlignRight
+        visible:            !QGroundControl.videoManager.fullScreen
+    }
 }

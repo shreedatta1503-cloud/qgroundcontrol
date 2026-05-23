@@ -69,7 +69,7 @@ if(NOT QGC_DISABLE_PX4_PLUGIN AND NOT QGC_DISABLE_PX4_PLUGIN_FACTORY)
     )
 endif()
 
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_subdirectory(ADSB)
 add_subdirectory(AnalyzeView)

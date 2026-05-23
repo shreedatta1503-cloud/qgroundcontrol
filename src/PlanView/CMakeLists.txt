@@ -1,6 +1,6 @@
 # qt_add_library(PlanView STATIC)
 
-# file(GLOB QML_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.qml)
+# file(GLOB QML_SOURCES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/*.qml")
 # qt_add_qml_module(PlanView
 #     URI QGroundControl.PlanView
 #     VERSION 1.0

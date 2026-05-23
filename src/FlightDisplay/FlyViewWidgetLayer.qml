@@ -48,7 +48,6 @@ Item {
     property rect   _centerViewport:        Qt.rect(0, 0, width, height)
     property real   _rightPanelWidth:       ScreenTools.defaultFontPixelWidth * 30
     property alias  _gripperMenu:           gripperOptions
-    property alias  _servoDropMenu:         servoDropOptions
     property real   _layoutMargin:          ScreenTools.defaultFontPixelWidth * 0.75
     property bool   _layoutSpacing:         ScreenTools.defaultFontPixelWidth
     property bool   _showSingleVehicleUI:   true
@@ -88,7 +87,6 @@ Item {
         id:                 topRightColumnLayout
         anchors.margins:    _layoutMargin
         anchors.top:        parent.top
-        anchors.bottom:     strobeButton.top
         anchors.right:      parent.right
         spacing:            _layoutSpacing
         visible:           !topRightPanel.visible
@@ -196,20 +194,6 @@ Item {
 
     GripperMenu {
         id: gripperOptions
-    }
-
-    ServoDropMenu {
-        id: servoDropOptions
-    }
-
-    StrobeButton {
-        id:                 strobeButton
-        anchors.right:      parent.right
-        anchors.rightMargin: _layoutMargin
-        anchors.bottom:     bottomRightRowLayout.top
-        anchors.bottomMargin: _layoutSpacing
-        z:                  QGroundControl.zOrderWidgets
-        visible:            !QGroundControl.videoManager.fullScreen
     }
 
     VehicleWarnings {

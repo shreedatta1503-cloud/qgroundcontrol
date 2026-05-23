@@ -34,7 +34,7 @@ qt_add_qml_module(FlightDisplayModule
         GripperMenu.qml
         GuidedActionConfirm.qml
         GuidedActionGripper.qml
-        GuidedActionServoDrop.qml
+        GuidedActionPayloadDrop.qml
         GuidedActionLand.qml
         GuidedActionPause.qml
         GuidedActionRTL.qml
@@ -59,8 +59,8 @@ qt_add_qml_module(FlightDisplayModule
         ProximityRadarVideoView.qml
         QGCVideoBackground.qml
         RoverChecklist.qml
-        ServoDropMenu.qml
-        StrobeButton.qml
+        PayloadDropWidget.qml
+        NavigationLightsButton.qml
         SubChecklist.qml
         TelemetryValuesBar.qml
         TerrainProgress.qml

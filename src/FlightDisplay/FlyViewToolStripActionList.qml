@@ -50,7 +50,6 @@ ToolStripActionList {
         GuidedActionRTL { },
         GuidedActionPause { },
         FlyViewAdditionalActionsButton { },
-        GuidedActionGripper { },
-        GuidedActionServoDrop { }
+        GuidedActionGripper { }
     ]
 }

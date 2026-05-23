@@ -756,6 +756,14 @@ FlightMap {
     }
 
     onMapClicked: (position) => {
+        var corners = _insetCornerRects()
+        if (pointInRect(position, corners["topleft"]) ||
+            pointInRect(position, corners["topright"]) ||
+            pointInRect(position, corners["bottomleft"]) ||
+            pointInRect(position, corners["bottomright"])) {
+            return
+        }
+
         if (!globals.guidedControllerFlyView.guidedUIVisible && 
             (globals.guidedControllerFlyView.showGotoLocation || globals.guidedControllerFlyView.showOrbit ||
              globals.guidedControllerFlyView.showROI || globals.guidedControllerFlyView.showSetHome ||

@@ -23,6 +23,9 @@ endif()
 ################################################################################
 
 if(GStreamer_VERSION VERSION_GREATER_EQUAL 1.22)
+    # Force HTTP/1.1 for all downloads in this scope to fix protocol errors on Windows
+    set(CMAKE_HTTP_VERSION 1.1)
+
     # Use Latest Revisions for each minor version: 1.20.7, 1.22.12, 1.24.12, 1.26.2
     string(REPLACE "." ";" GST_VERSION_LIST ${GStreamer_VERSION})
     list(GET GST_VERSION_LIST 0 GST_VERSION_MAJOR)
@@ -41,11 +44,9 @@ if(GStreamer_VERSION VERSION_GREATER_EQUAL 1.22)
 
     set(GST_PLUGINS_VERSION ${GST_VERSION_MAJOR}.${GST_VERSION_MINOR}.${GST_VERSION_PATCH})
 
-    # URL_HASH https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${GST_PLUGINS_VERSION}.tar.xz.sha256sum
     CPMAddPackage(
         NAME gstreamer_good_plugins
         VERSION ${GST_PLUGINS_VERSION}
-        # URL https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/${GST_PLUGINS_VERSION}/gstreamer-${GST_PLUGINS_VERSION}.zip?path=subprojects/gst-plugins-good/ext/qt6
         URL https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${GST_PLUGINS_VERSION}.tar.xz
     )
     set(QGC_GST_QT6_PLUGIN_PATH "${gstreamer_good_plugins_SOURCE_DIR}/ext/qt6")

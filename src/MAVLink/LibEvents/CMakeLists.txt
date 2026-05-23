@@ -7,7 +7,7 @@ target_sources(${CMAKE_PROJECT_NAME}
         logging.cpp
 )
 
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 #===========================================================================#
 
@@ -19,4 +19,4 @@ CPMAddPackage(
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE libevents)
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${libevents_SOURCE_DIR}/libs/cpp)
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${libevents_SOURCE_DIR}/libs/cpp")

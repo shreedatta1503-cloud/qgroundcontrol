@@ -61,15 +61,15 @@ target_link_libraries(QGCLocation
 
 target_include_directories(QGCLocation
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/..
-        ${CMAKE_CURRENT_SOURCE_DIR}/../FactSystem
-        ${CMAKE_CURRENT_SOURCE_DIR}/../QmlControls
-        ${CMAKE_CURRENT_SOURCE_DIR}/../Terrain
-        ${CMAKE_CURRENT_SOURCE_DIR}/../Terrain/Providers
-        ${CMAKE_CURRENT_SOURCE_DIR}/../Settings
-        ${CMAKE_CURRENT_SOURCE_DIR}/../Utilities
-        ${CMAKE_CURRENT_SOURCE_DIR}/../Utilities/FileSystem
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}/.."
+        "${CMAKE_CURRENT_SOURCE_DIR}/../FactSystem"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../QmlControls"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../Terrain"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../Terrain/Providers"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../Settings"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../Utilities"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../Utilities/FileSystem"
         Providers
         QMLControl
 )

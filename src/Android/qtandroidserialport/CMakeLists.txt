@@ -17,6 +17,6 @@ target_sources(${CMAKE_PROJECT_NAME}
         qtserialportversion.h
 )
 
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE QIODEVICE_DEBUG)

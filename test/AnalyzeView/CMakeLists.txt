@@ -14,7 +14,7 @@ target_sources(${CMAKE_PROJECT_NAME}
         # ULogParserTest.h
 )
 
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # https://github.com/ianare/exif-samples
 # qt_add_resources(${CMAKE_PROJECT_NAME} "AnalyzeViewTest_res"

@@ -17,17 +17,18 @@ import QGroundControl.Controls
 import QGroundControl.ScreenTools
 
 QGCButton {
-    id:         strobeButton
-    text:       qsTr("Strobe")
+    id:                 navigationLightsButton
+    Layout.fillWidth:   true
+    text:               qsTr("Navigation Lights")
     checkable:  true
-    checked:    _strobeFact ? _strobeFact.value === 3 : false
-    enabled:    _strobeFact !== null
+    checked:    _navigationLightsFact ? _navigationLightsFact.value === 3 : false
+    enabled:    _navigationLightsFact !== null
 
-    property var _strobeFact: globals.activeVehicle ? globals.activeVehicle.getParameterFact(-1, "UAVCAN_LGT_STROB", false) : null
+    property var _navigationLightsFact: globals.activeVehicle ? globals.activeVehicle.getParameterFact(-1, "UAVCAN_LGT_STROB", false) : null
 
     onClicked: {
-        if (_strobeFact) {
-            _strobeFact.value = checked ? 3 : 0
+        if (_navigationLightsFact) {
+            _navigationLightsFact.value = checked ? 3 : 0
         }
     }
 }

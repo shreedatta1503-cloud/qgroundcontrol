@@ -11,7 +11,7 @@ import QGroundControl.FlightDisplay
 import QGroundControl
 
 GuidedToolStripAction {
-    text:       qsTr("Servo Drop")
+    text:       qsTr("Payload Drop")
     iconSource: "/res/DropArrow.svg"
-    actionID:   _guidedController.actionServoDrop
+    actionID:   _guidedController.actionPayloadDrop
 }

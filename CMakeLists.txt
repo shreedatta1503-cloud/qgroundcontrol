@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.25)
 
 list(APPEND CMAKE_MODULE_PATH
-    ${CMAKE_SOURCE_DIR}/cmake
-    ${CMAKE_SOURCE_DIR}/cmake/modules
-    ${CMAKE_SOURCE_DIR}/cmake/find-modules
+    "${CMAKE_SOURCE_DIR}/cmake"
+    "${CMAKE_SOURCE_DIR}/cmake/modules"
+    "${CMAKE_SOURCE_DIR}/cmake/find-modules"
 )
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -20,10 +20,10 @@ set(CMAKE_POLICY_VERSION_MINIMUM 3.15)
 
 include(CustomOptions)
 
-if(IS_DIRECTORY ${CMAKE_SOURCE_DIR}/custom)
+if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/custom")
     message(STATUS "Enabling custom build")
     set(QGC_CUSTOM_BUILD ON)
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/custom/cmake)
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/custom/cmake")
     include(CustomOverrides)
 endif()
 
@@ -140,9 +140,9 @@ if(CMAKE_CROSSCOMPILING)
     endif()
 endif()
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>/lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
 # https://cmake.org/cmake/help/latest/policy/CMP0168.html#policy:CMP0168
 if(POLICY CMP0168)
@@ -268,25 +268,25 @@ endif()
 # Note: Adding Resources to Library instead requires using Q_INIT_RESOURCE(qgcresources)
 
 list(APPEND QGC_RESOURCES
-    ${CMAKE_SOURCE_DIR}/qgcimages.qrc
-    ${CMAKE_SOURCE_DIR}/qgcresources.qrc
-    ${CMAKE_SOURCE_DIR}/qgroundcontrol.qrc
+    "${CMAKE_SOURCE_DIR}/qgcimages.qrc"
+    "${CMAKE_SOURCE_DIR}/qgcresources.qrc"
+    "${CMAKE_SOURCE_DIR}/qgroundcontrol.qrc"
 )
 
 list(APPEND QGC_RESOURCES
-    ${CMAKE_SOURCE_DIR}/resources/InstrumentValueIcons/InstrumentValueIcons.qrc
-    ${CMAKE_SOURCE_DIR}/src/FirmwarePlugin/APM/APMResources.qrc
-    ${CMAKE_SOURCE_DIR}/src/FirmwarePlugin/PX4/PX4Resources.qrc
+    "${CMAKE_SOURCE_DIR}/resources/InstrumentValueIcons/InstrumentValueIcons.qrc"
+    "${CMAKE_SOURCE_DIR}/src/FirmwarePlugin/APM/APMResources.qrc"
+    "${CMAKE_SOURCE_DIR}/src/FirmwarePlugin/PX4/PX4Resources.qrc"
 )
 
 if(QGC_UTM_ADAPTER)
-    list(APPEND QGC_RESOURCES ${CMAKE_SOURCE_DIR}/src/UTMSP/utmsp.qrc)
+    list(APPEND QGC_RESOURCES "${CMAKE_SOURCE_DIR}/src/UTMSP/utmsp.qrc")
 else()
-    list(APPEND QGC_RESOURCES ${CMAKE_SOURCE_DIR}/src/UTMSP/dummy/utmsp_dummy.qrc)
+    list(APPEND QGC_RESOURCES "${CMAKE_SOURCE_DIR}/src/UTMSP/dummy/utmsp_dummy.qrc")
 endif()
 
 if(QGC_BUILD_TESTING)
-    list(APPEND QGC_RESOURCES ${CMAKE_SOURCE_DIR}/test/UnitTest.qrc)
+    list(APPEND QGC_RESOURCES "${CMAKE_SOURCE_DIR}/test/UnitTest.qrc")
 endif()
 
 #######################################################
@@ -317,10 +317,10 @@ if(WIN32)
 
     # Destination directory where files will be copied
     set(QGC_INSTALLER_SOURCE_WIN "${CMAKE_BINARY_DIR}/deploy/windows")
-    file(MAKE_DIRECTORY ${QGC_INSTALLER_SOURCE_WIN})
-    foreach(FILE ${DEPLOY_WIN_FILES})
+    file(MAKE_DIRECTORY "${QGC_INSTALLER_SOURCE_WIN}")
+    foreach(FILE IN LISTS DEPLOY_WIN_FILES)
         # filename without the path
-        get_filename_component(FILE_NAME ${FILE} NAME)
+        get_filename_component(FILE_NAME "${FILE}" NAME)
         # re-copy the file if it changes
         add_custom_command(
             OUTPUT "${QGC_INSTALLER_SOURCE_WIN}/${FILE_NAME}"
@@ -528,34 +528,32 @@ if(QGC_CUSTOM_BUILD)
     target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CUSTOM_INCLUDE_DIRECTORIES})
 endif()
 
-file(GLOB TS_SOURCES ${CMAKE_SOURCE_DIR}/translations/qgc_*.ts)
-set_source_files_properties(${TS_SOURCES} PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/i18n")
+file(GLOB TS_SOURCES "${CMAKE_SOURCE_DIR}/translations/qgc_*.ts")
+foreach(TS_FILE IN LISTS TS_SOURCES)
+    set_source_files_properties("${TS_FILE}" PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/i18n")
+endforeach()
 qt_add_translations(${CMAKE_PROJECT_NAME}
-    # TS_FILE_BASE ${CMAKE_PROJECT_NAME}
-    # TS_FILE_DIR ${CMAKE_SOURCE_DIR}/translations/
     TS_FILES ${TS_SOURCES}
-    # TS_FILES_OUTPUT_VARIABLE
-    # QM_FILES_OUTPUT_VARIABLE
-    # TARGETS ${CMAKE_PROJECT_NAME}
-    # SOURCE_TARGETS ${CMAKE_PROJECT_NAME}
+    TARGETS ${CMAKE_PROJECT_NAME}
+    SOURCE_TARGETS ${CMAKE_PROJECT_NAME}
     RESOURCE_PREFIX "/"
     LUPDATE_OPTIONS -no-obsolete
 )
 
 set_source_files_properties(resources/qtquickcontrols2.conf PROPERTIES QT_RESOURCE_ALIAS qtquickcontrols2.conf)
-set_source_files_properties(${SDL_GAMECONTROLLERDB_PATH} PROPERTIES QT_RESOURCE_ALIAS gamecontrollerdb.txt)
+set_source_files_properties("${SDL_GAMECONTROLLERDB_PATH}" PROPERTIES QT_RESOURCE_ALIAS gamecontrollerdb.txt)
 
-foreach(shader ${QGC_GSTREAMER_SHADER_RESOURCES})
-    get_filename_component(shader_name ${shader} NAME)
-    set_source_files_properties(${shader}
-        PROPERTIES QT_RESOURCE_ALIAS ${shader_name})
+foreach(shader IN LISTS QGC_GSTREAMER_SHADER_RESOURCES)
+    get_filename_component(shader_name "${shader}" NAME)
+    set_source_files_properties("${shader}"
+        PROPERTIES QT_RESOURCE_ALIAS "${shader_name}")
 endforeach()
 
 qt_add_resources(${CMAKE_PROJECT_NAME} "qgcresources_cmake"
     PREFIX "/"
     FILES
         resources/qtquickcontrols2.conf
-        ${SDL_GAMECONTROLLERDB_PATH}
+        "${SDL_GAMECONTROLLERDB_PATH}"
         ${QGC_GSTREAMER_SHADER_RESOURCES}
 )
 
