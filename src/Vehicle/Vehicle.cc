@@ -3954,6 +3954,28 @@ void Vehicle::sendGripperAction(QGCMAVLink::GRIPPER_OPTIONS gripperOption)
     }
 }
 
+void Vehicle::removePin()
+{
+    // Use servo 9 (Aux 1) for Pin Removal
+    // Retract: 1100 PWM
+    sendMavCommand(_defaultComponentId,
+                   MAV_CMD_DO_SET_SERVO,
+                   true,            // show errors
+                   9.0f,            // Servo number
+                   1100.0f);        // PWM
+}
+
+void Vehicle::payloadDrop()
+{
+    // Use servo 10 (Aux 2) for Payload Drop
+    // Retract: 1100 PWM
+    sendMavCommand(_defaultComponentId,
+                   MAV_CMD_DO_SET_SERVO,
+                   true,            // show errors
+                   10.0f,           // Servo number
+                   1100.0f);        // PWM
+}
+
 void Vehicle::setEstimatorOrigin(const QGeoCoordinate& centerCoord)
 {
     SharedLinkInterfacePtr sharedLink = vehicleLinkManager()->primaryLink().lock();

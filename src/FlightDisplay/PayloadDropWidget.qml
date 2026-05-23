@@ -152,9 +152,13 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    mainWindow.showMessageDialog(qsTr("Remove Pin"), qsTr("Pin Removed"), Dialog.Ok, function() {
-                        _pinRemoved = true
-                    })
+                    var activeVehicle = QGroundControl.multiVehicleManager.activeVehicle
+                    if (activeVehicle) {
+                        mainWindow.showMessageDialog(qsTr("Remove Pin"), qsTr("Pin Removed"), Dialog.Ok, function() {
+                            activeVehicle.removePin()
+                            _pinRemoved = true
+                        })
+                    }
                 }
             }
         }
@@ -187,7 +191,7 @@ Rectangle {
                 onClicked: {
                     var activeVehicle = QGroundControl.multiVehicleManager.activeVehicle
                     if (activeVehicle) {
-                        activeVehicle.sendGripperAction(Vehicle.Gripper_release)
+                        activeVehicle.payloadDrop()
                         _isDropping = true
                         _safetyOn = true // Turn safety back ON automatically
                         dropHighlightTimer.restart()

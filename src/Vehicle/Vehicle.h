@@ -488,6 +488,8 @@ public:
 
     void setGripperAction(GRIPPER_ACTIONS gripperAction);
     Q_INVOKABLE void sendGripperAction(QGCMAVLink::GRIPPER_OPTIONS gripperOption);
+    Q_INVOKABLE void removePin();
+    Q_INVOKABLE void payloadDrop();
 
     void pairRX(int rxType, int rxSubType);
 
