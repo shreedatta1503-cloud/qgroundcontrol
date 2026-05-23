@@ -490,6 +490,7 @@ public:
     Q_INVOKABLE void sendGripperAction(QGCMAVLink::GRIPPER_OPTIONS gripperOption);
     Q_INVOKABLE void removePin();
     Q_INVOKABLE void payloadDrop();
+    Q_INVOKABLE void setNavigationLights(bool on);
 
     void pairRX(int rxType, int rxSubType);
 

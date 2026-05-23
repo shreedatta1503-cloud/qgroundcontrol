@@ -20,15 +20,16 @@ QGCButton {
     id:                 navigationLightsButton
     Layout.fillWidth:   true
     text:               qsTr("Navigation Lights")
-    checkable:  true
-    checked:    _navigationLightsFact ? _navigationLightsFact.value === 3 : false
-    enabled:    _navigationLightsFact !== null
-
-    property var _navigationLightsFact: globals.activeVehicle ? globals.activeVehicle.getParameterFact(-1, "UAVCAN_LGT_STROB", false) : null
+    checkable:          true
+    
+    // Styling: Blue when ON, Translucent (0.5 opacity) when OFF
+    backgroundColor:    checked ? "blue" : "transparent"
+    opacity:            checked ? 1.0 : 0.5
+    textColor:          "white"
 
     onClicked: {
-        if (_navigationLightsFact) {
-            _navigationLightsFact.value = checked ? 3 : 0
+        if (globals.activeVehicle) {
+            globals.activeVehicle.setNavigationLights(checked)
         }
     }
 }

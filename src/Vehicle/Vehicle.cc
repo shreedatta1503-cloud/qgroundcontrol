@@ -3976,6 +3976,17 @@ void Vehicle::payloadDrop()
                    1100.0f);        // PWM
 }
 
+void Vehicle::setNavigationLights(bool on)
+{
+    // Use servo 9 (Aux 1) for Navigation Lights
+    // ON: 2000 PWM, OFF: 1000 PWM
+    sendMavCommand(_defaultComponentId,
+                   MAV_CMD_DO_SET_SERVO,
+                   true,            // show errors
+                   9.0f,            // Servo number
+                   on ? 2000.0f : 1000.0f);
+}
+
 void Vehicle::setEstimatorOrigin(const QGeoCoordinate& centerCoord)
 {
     SharedLinkInterfacePtr sharedLink = vehicleLinkManager()->primaryLink().lock();
