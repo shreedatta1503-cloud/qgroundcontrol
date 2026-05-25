@@ -28,7 +28,6 @@ from common.gh_actions import (  # noqa: E402
     write_github_output as _write_github_output,
     write_step_summary as _write_step_summary,
 )
-from common.proc import run_captured  # noqa: E402
 
 
 @dataclass
@@ -39,12 +38,8 @@ class ArchiveResult:
 
 
 def run_command(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
-    """Run *cmd* via common.proc.run_captured, printing stdout/stderr on failure.
-
-    The verbose error logging exists because tar/curl/aws-cli failures here are
-    debugged from CI logs — a plain CalledProcessError traceback isn't enough.
-    """
-    result = run_captured(cmd, **kwargs)
+    """Run command with improved error output."""
+    result = subprocess.run(cmd, capture_output=True, text=True, **kwargs)
     if result.returncode != 0:
         print(f"Command failed: {' '.join(cmd)}", file=sys.stderr)
         if result.stdout:
@@ -199,7 +194,7 @@ class GStreamerArchiver:
             "--acl",
             "public-read",
         ]
-        result = run_captured(cmd, env=env)
+        result = subprocess.run(cmd, capture_output=True, text=True, env=env)
         if result.returncode != 0:
             print(f"S3 upload failed: {result.stderr}", file=sys.stderr)
             raise subprocess.CalledProcessError(result.returncode, cmd)

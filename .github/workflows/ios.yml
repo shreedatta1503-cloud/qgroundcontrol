@@ -24,6 +24,9 @@ permissions:
   actions: read
   security-events: write
 
+env:
+  IS_STABLE_BUILD: ${{ (github.ref_type == 'tag' || contains(github.ref, 'Stable')) && 'true' || 'false' }}
+
 jobs:
   changes:
     uses: ./.github/workflows/_detect-changes.yml
@@ -71,6 +74,7 @@ jobs:
         with:
           build-dir: ${{ runner.temp }}/build
           build-type: ${{ matrix.build_type }}
+          stable: ${{ env.IS_STABLE_BUILD }}
           # Qt6LinguistTools cmake config ships with the desktop qtbase install (host),
           # not iOS qtbase; point CMake at the host copy directly.
           extra-args: >-

@@ -9,12 +9,11 @@ from __future__ import annotations
 import argparse
 import os
 import platform
+import re
 import stat
 import subprocess
 import sys
 from pathlib import Path
-
-from cmake_helper import read_cache_var
 
 
 def _setup_gstreamer_env(build_dir: Path) -> None:
@@ -28,11 +27,13 @@ def _setup_gstreamer_env(build_dir: Path) -> None:
     if not cache.is_file():
         return
 
-    value = read_cache_var(str(cache), "GStreamer_ROOT_DIR")
-    if not value:
+    match = re.search(
+        r"^GStreamer_ROOT_DIR:\w*=(.+)$", cache.read_text(), re.MULTILINE
+    )
+    if not match:
         return
 
-    gst_root = Path(value)
+    gst_root = Path(match.group(1))
     plugin_dir = gst_root / "lib" / "gstreamer-1.0"
     if not plugin_dir.is_dir():
         return

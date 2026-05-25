@@ -1,33 +1,20 @@
 """Git helpers for QGC tooling.
 
-Centralises the ``["git", ...]`` subprocess shelling used by CI scripts and
-dev tools. Provides default-branch discovery plus a generic ``run_git``
-wrapper backed by :mod:`common.proc`.
+Currently provides default-branch discovery used by analyzers and pre-commit
+to scope "changed files" comparisons.
 """
 
 from __future__ import annotations
 
+import subprocess
 from typing import TYPE_CHECKING
 
-from .proc import run_captured
+__all__ = ["get_default_branch_ref"]
 
 if TYPE_CHECKING:
-    import subprocess
     from pathlib import Path
 
-__all__ = ["get_default_branch_ref", "run_git"]
-
 _FALLBACK_REFS: tuple[str, ...] = ("master", "main", "origin/master", "origin/main")
-
-
-def run_git(
-    *args: str,
-    cwd: Path | str | None = None,
-    check: bool = False,
-    timeout: float | None = None,
-) -> subprocess.CompletedProcess[str]:
-    """Run ``git *args`` capturing stdout/stderr as text. Thin wrapper over run_captured."""
-    return run_captured(["git", *args], cwd=cwd, check=check, timeout=timeout)
 
 
 def get_default_branch_ref(repo_root: Path | None = None) -> str | None:
@@ -37,12 +24,22 @@ def get_default_branch_ref(repo_root: Path | None = None) -> str | None:
     probes the usual ``master``/``main`` variants. ``repo_root`` selects the
     git directory; ``None`` uses the caller's CWD.
     """
-    head = run_git("symbolic-ref", "refs/remotes/origin/HEAD", "--short", cwd=repo_root)
+    git_prefix: list[str] = ["git"]
+    if repo_root is not None:
+        git_prefix.extend(["-C", str(repo_root)])
+
+    head = subprocess.run(
+        [*git_prefix, "symbolic-ref", "refs/remotes/origin/HEAD", "--short"],
+        capture_output=True, text=True, check=False,
+    )
     if head.returncode == 0:
         return head.stdout.strip().removeprefix("origin/")
 
     for ref in _FALLBACK_REFS:
-        probe = run_git("rev-parse", "--verify", ref, cwd=repo_root)
+        probe = subprocess.run(
+            [*git_prefix, "rev-parse", "--verify", ref],
+            capture_output=True, check=False,
+        )
         if probe.returncode == 0:
             return ref
     return None

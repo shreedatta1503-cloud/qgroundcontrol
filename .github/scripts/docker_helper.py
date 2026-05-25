@@ -2,9 +2,8 @@
 """Docker build helpers for CI.
 
 Subcommands:
-    validate              Validate dockerfile and build-type inputs
-    run                   Run docker build with retry logic
-    resolve-push-target   Resolve the GHCR/Docker Hub push target for the current ref
+    validate    Validate dockerfile and build-type inputs
+    run         Run docker build with retry logic
 """
 
 from __future__ import annotations
@@ -13,12 +12,6 @@ import argparse
 import subprocess
 import sys
 import time
-
-from ci_bootstrap import ensure_tools_dir
-
-ensure_tools_dir(__file__)
-
-from common.gh_actions import write_github_output  # noqa: E402
 
 VALID_DOCKERFILES = {"Dockerfile-build-ubuntu", "Dockerfile-build-android"}
 VALID_BUILD_TYPES = {"Release", "Debug"}
@@ -38,18 +31,6 @@ def cmd_validate(args: argparse.Namespace) -> None:
         sys.exit(1)
     print(f"Using dockerfile: {args.dockerfile}")
     print(f"Build type: {args.build_type}")
-
-
-def cmd_resolve_push_target(args: argparse.Namespace) -> None:
-    target = ""
-    if args.event_name == "push" and args.repo == "mavlink/qgroundcontrol":
-        ref = args.ref
-        if ref == "refs/heads/master" or ref.startswith("refs/heads/Stable"):
-            target = "ghcr.io/mavlink/qgroundcontrol"
-        elif ref.startswith("refs/tags/v"):
-            target = "dronecode/qgroundcontrol"
-    write_github_output({"ref": target})
-    print(f"push target: {target or '(none)'}")
 
 
 def cmd_run(args: argparse.Namespace) -> None:
@@ -84,17 +65,8 @@ def main() -> None:
     p_run.add_argument("--max-attempts", type=int, default=2)
     p_run.add_argument("--retry-delay", type=int, default=30)
 
-    p_target = sub.add_parser("resolve-push-target")
-    p_target.add_argument("--event-name", required=True)
-    p_target.add_argument("--repo", required=True)
-    p_target.add_argument("--ref", required=True)
-
     args = parser.parse_args()
-    {
-        "validate": cmd_validate,
-        "run": cmd_run,
-        "resolve-push-target": cmd_resolve_push_target,
-    }[args.command](args)
+    {"validate": cmd_validate, "run": cmd_run}[args.command](args)
 
 
 if __name__ == "__main__":

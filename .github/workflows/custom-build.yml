@@ -72,10 +72,8 @@ jobs:
           build-type: Release
 
       - name: Create AppImage
-        uses: ./.github/actions/cmake-install
-        with:
-          build-dir: ${{ runner.temp }}/build
-          build-type: Release
+        working-directory: ${{ runner.temp }}/build
+        run: cmake --install . --config Release
 
       - name: Verify Custom AppImage
         uses: ./.github/actions/verify-executable
