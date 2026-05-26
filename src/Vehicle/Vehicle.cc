@@ -3146,17 +3146,22 @@ void Vehicle::sendGripperAction(GRIPPER_ACTIONS gripperAction)
 
 void Vehicle::sendPayloadDrop(int payloadIndex)
 {
-    if (payloadIndex < 1) {
+    // payloadIndex is 1-based and maps directly to a servo output channel (1..6).
+    // Drive the servo to its release PWM to actuate the drop mechanism.
+    static constexpr int kPayloadServoCount     = 6;
+    static constexpr float kServoReleasePwmUs   = 2000.0f;
+
+    if (payloadIndex < 1 || payloadIndex > kPayloadServoCount) {
         qCWarning(VehicleLog) << "Invalid payload drop index" << payloadIndex;
         return;
     }
 
     sendMavCommand(
             _defaultComponentId,
-            MAV_CMD_DO_GRIPPER,
+            MAV_CMD_DO_SET_SERVO,
             true,                           // Show errors
-            payloadIndex,                   // Param1: Payload/gripper ID
-            GRIPPER_ACTION_RELEASE);        // Param2: Release payload
+            payloadIndex,                   // Param1: Servo instance (1..6)
+            kServoReleasePwmUs);            // Param2: PWM (us) to release payload
 }
 
 void Vehicle::setEstimatorOrigin(const QGeoCoordinate& centerCoord)
