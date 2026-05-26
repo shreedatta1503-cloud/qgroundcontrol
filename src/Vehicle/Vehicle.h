@@ -735,6 +735,7 @@ public slots:
     void _offlineFirmwareTypeSettingChanged (QVariant varFirmwareType); // Should only be used by MissionControler to set firmware from Plan file
     void _offlineVehicleTypeSettingChanged  (QVariant varVehicleType);  // Should only be used by MissionController to set vehicle type from Plan file
     Q_INVOKABLE void sendGripperAction(GRIPPER_ACTIONS gripperOption);
+    Q_INVOKABLE void sendPayloadDrop(int payloadIndex);
 
 signals:
     void coordinateChanged              (QGeoCoordinate coordinate);

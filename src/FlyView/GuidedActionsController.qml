@@ -142,6 +142,7 @@ Item {
     property bool showSetHome:              _guidedActionsEnabled
     property bool showSetEstimatorOrigin:   _activeVehicle && !(_activeVehicle.sensorsPresentBits & MAVLinkEnums.MAV_SYS_STATUS_SENSOR_GPS)
     property bool showChangeHeading:        _guidedActionsEnabled && _vehicleFlying
+    property bool isPayloadWidgetClick:     false
 
     property string changeSpeedTitle:   _vehicleInFwdFlight ? changeAirspeedTitle : changeCruiseSpeedTitle
     property string changeSpeedMessage: _vehicleInFwdFlight ? changeAirspeedMessage : changeCruiseSpeedMessage

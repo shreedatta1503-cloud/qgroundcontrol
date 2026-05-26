@@ -16,9 +16,17 @@ target_compile_definitions(${CMAKE_PROJECT_NAME}
         WIN32_LEAN_AND_MEAN  # Reduce Windows.h bloat
 )
 
+if(MINGW)
+    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-Wa,-mbig-obj>)
+endif()
+
 # ----------------------------------------------------------------------------
 # Windows Executable Configuration
 # ----------------------------------------------------------------------------
+if(MINGW)
+    set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff <FLAGS> <SOURCE> <OBJECT>")
+endif()
+
 if(COMMAND _qt_internal_generate_win32_rc_file)
     set_target_properties(${CMAKE_PROJECT_NAME}
         PROPERTIES

@@ -30,4 +30,9 @@ ColumnLayout {
             }
         }
     }
+
+    PayloadDropWidget {
+        Layout.alignment:   Qt.AlignRight
+        visible:            globals.activeVehicle !== null
+    }
 }

@@ -668,6 +668,10 @@ FlightMap {
 
             property var mapClickCoord
 
+            onClosed: {
+                globals.guidedControllerFlyView.isPayloadWidgetClick = false
+            }
+
             sourceComponent: Component {
                 ColumnLayout {
                     spacing: ScreenTools.defaultFontPixelWidth / 2
@@ -716,7 +720,7 @@ FlightMap {
                     QGCButton {
                         Layout.fillWidth:   true
                         text:               qsTr("Set home here")
-                        visible:            globals.guidedControllerFlyView.showSetHome
+                        visible:            !pipMode && globals.guidedControllerFlyView.showSetHome && !globals.guidedControllerFlyView.isPayloadWidgetClick
                         onClicked: {
                             mapClickDropPanel.close()
                             globals.guidedControllerFlyView.confirmAction(globals.guidedControllerFlyView.actionSetHome, mapClickCoord)

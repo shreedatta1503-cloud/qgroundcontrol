@@ -3144,6 +3144,21 @@ void Vehicle::sendGripperAction(GRIPPER_ACTIONS gripperAction)
             gripperAction);         // Param2: Gripper Action
 }
 
+void Vehicle::sendPayloadDrop(int payloadIndex)
+{
+    if (payloadIndex < 1) {
+        qCWarning(VehicleLog) << "Invalid payload drop index" << payloadIndex;
+        return;
+    }
+
+    sendMavCommand(
+            _defaultComponentId,
+            MAV_CMD_DO_GRIPPER,
+            true,                           // Show errors
+            payloadIndex,                   // Param1: Payload/gripper ID
+            GRIPPER_ACTION_RELEASE);        // Param2: Release payload
+}
+
 void Vehicle::setEstimatorOrigin(const QGeoCoordinate& centerCoord)
 {
     SharedLinkInterfacePtr sharedLink = vehicleLinkManager()->primaryLink().lock();
