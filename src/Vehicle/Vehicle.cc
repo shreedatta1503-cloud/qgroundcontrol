@@ -3144,6 +3144,35 @@ void Vehicle::sendGripperAction(GRIPPER_ACTIONS gripperAction)
             gripperAction);         // Param2: Gripper Action
 }
 
+void Vehicle::sendPayloadPinRelease()
+{
+    // AUX OUT 9 drives the linear actuator that removes the payload retaining pin.
+    // On ArduPilot, AUX OUT n maps to SERVOn, so the DO_SET_SERVO instance is the channel number.
+    static constexpr float kPinActuatorServo = 9.0f;    // AUX OUT 9
+    static constexpr float kReleasePwmUs     = 2000.0f; // Drive actuator to the release end-stop
+
+    sendMavCommand(
+            _defaultComponentId,
+            MAV_CMD_DO_SET_SERVO,
+            true,                   // Show errors
+            kPinActuatorServo,      // Param1: Servo instance (AUX OUT 9)
+            kReleasePwmUs);         // Param2: PWM (us)
+}
+
+void Vehicle::sendPayloadDrop()
+{
+    // AUX OUT 11 drives the payload-release servo.
+    static constexpr float kReleaseServo = 11.0f;   // AUX OUT 11
+    static constexpr float kReleasePwmUs = 2000.0f; // Drive servo to the release position
+
+    sendMavCommand(
+            _defaultComponentId,
+            MAV_CMD_DO_SET_SERVO,
+            true,                   // Show errors
+            kReleaseServo,          // Param1: Servo instance (AUX OUT 11)
+            kReleasePwmUs);         // Param2: PWM (us)
+}
+
 void Vehicle::setEstimatorOrigin(const QGeoCoordinate& centerCoord)
 {
     SharedLinkInterfacePtr sharedLink = vehicleLinkManager()->primaryLink().lock();

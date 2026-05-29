@@ -54,6 +54,7 @@ qt_add_qml_module(FlyViewModule
         ObstacleDistanceOverlayVideo.qml
         OnScreenCameraTrackingController.qml
         OnScreenGimbalController.qml
+        PayloadDropWidget.qml
         PreFlightBatteryCheck.qml
         PreFlightCheckList.qml
         PreFlightCheckListShowAction.qml

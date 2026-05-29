@@ -735,6 +735,10 @@ public slots:
     void _offlineFirmwareTypeSettingChanged (QVariant varFirmwareType); // Should only be used by MissionControler to set firmware from Plan file
     void _offlineVehicleTypeSettingChanged  (QVariant varVehicleType);  // Should only be used by MissionController to set vehicle type from Plan file
     Q_INVOKABLE void sendGripperAction(GRIPPER_ACTIONS gripperOption);
+    /// Drives the payload pin-release linear actuator (AUX OUT 9) via MAV_CMD_DO_SET_SERVO.
+    Q_INVOKABLE void sendPayloadPinRelease();
+    /// Drives the payload-release servo (AUX OUT 11) via MAV_CMD_DO_SET_SERVO.
+    Q_INVOKABLE void sendPayloadDrop();
 
 signals:
     void coordinateChanged              (QGeoCoordinate coordinate);
